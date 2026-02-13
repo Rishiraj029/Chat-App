@@ -23,6 +23,7 @@ function useAuthSocial( ) {
       );
       return;
      }
+     
      await setActive({ session: createdSessionId });  
     }catch (error) {
        console.log("Error in social auth:", error);
