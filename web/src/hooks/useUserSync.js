@@ -1,17 +1,15 @@
 import { useAuth } from "@clerk/clerk-react";
 import { useMutation } from "@tanstack/react-query";
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import api from "../lib/axios";
 
 function useUserSync() {
   const { isSignedIn, getToken } = useAuth();
-  const hasAttemptedRef = useRef(false);
 
   const {
     mutate: syncUser,
     isPending,
     isSuccess,
-    isError,
   } = useMutation({
     mutationFn: async () => {
       const token = await getToken();
@@ -27,11 +25,10 @@ function useUserSync() {
   });
 
   useEffect(() => {
-    if (isSignedIn && !isPending && !isSuccess && !isError && !hasAttemptedRef.current) {
-      hasAttemptedRef.current = true;
+    if (isSignedIn && !isPending && !isSuccess) {
       syncUser();
     }
-  }, [isSignedIn, syncUser, isPending, isSuccess, isError]);
+  }, [isSignedIn, syncUser, isPending, isSuccess]);
 
   return { isSynced: isSuccess, isSyncing: isPending };
 }

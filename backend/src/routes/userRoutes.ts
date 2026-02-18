@@ -2,8 +2,10 @@ import { Router } from "express";
 import { protectRoute } from "../middleware/auth";
 import { getUsers } from "../controllers/userController";
 
-const router = Router()
+const router = Router();
 
-router.get("",protectRoute ,getUsers)
+router.use(protectRoute);
+
+router.get("/", getUsers);
 
 export default router;

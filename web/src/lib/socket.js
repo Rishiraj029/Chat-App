@@ -1,8 +1,7 @@
 import { create } from "zustand";
 import { io } from "socket.io-client";
 
-const rawSocketUrl = import.meta.env.VITE_API_URL || "https://talksy-ajfa.onrender.com";
-const SOCKET_URL = rawSocketUrl.replace(/\/api\/?$/, "").replace(/\/$/, "");
+const SOCKET_URL = import.meta.env.VITE_API_URL;
 
 export const useSocketStore = create((set, get) => ({
   socket: null,

@@ -16,11 +16,12 @@ const httpServer = createServer(app)
 
 initializeSocket(httpServer)
 
-connectDB().then(() => {
-   httpServer.listen(PORT, () => {
-    console.log("Server is running on PORT: ",PORT);
+connectDB()
+  .then(() => {
+     httpServer.listen(PORT, () => {
+      console.log("Server is running on   PORT: ",PORT);
     
-   });
+     });
 }).catch ((error) => {
    console.log("Failed to start server: ", error);
    process.exit(1);
