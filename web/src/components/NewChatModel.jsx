@@ -1,17 +1,12 @@
 import { useState } from "react";
 import { UsersIcon, SearchIcon } from "lucide-react";
 import { useSocketStore } from "../lib/socket";
-import { useUsers } from "../hooks/useUser";
+import { useUsers } from "../hooks/useUsers";
 
 export function NewChatModal({ onStartChat, isPending, isOpen, onClose }) {
   const [searchQuery, setSearchQuery] = useState("");
   const { onlineUsers } = useSocketStore();
-  const { data: allUsersData } = useUsers();
-  const allUsers = Array.isArray(allUsersData)
-    ? allUsersData
-    : Array.isArray(allUsersData?.users)
-      ? allUsersData.users
-      : [];
+  const { data: allUsers = [] } = useUsers();
   const isOnline = (id) => onlineUsers.has(id);
 
   const handleStartChat = (participantId) => {

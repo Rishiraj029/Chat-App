@@ -1,6 +1,7 @@
 import type { NextFunction, Response } from "express";
 import type { AuthRequest } from "../middleware/auth";
 import { Chat } from "../models/Chat";
+import { Types } from "mongoose";
 
 
 export async function getChats(req: AuthRequest, res: Response, next: NextFunction) {
@@ -41,6 +42,10 @@ export async function getOrCreateChat(req: AuthRequest, res: Response, next: Nex
     if (!participantId) {
       res.status(400).json({ message: "Participant ID is required" });
       return;
+    }
+
+    if (!Types.ObjectId.isValid(participantId)) {
+      return res.status(400).json({ message: "Invalid participant ID" });
     }
 
     if (userId === participantId) {
