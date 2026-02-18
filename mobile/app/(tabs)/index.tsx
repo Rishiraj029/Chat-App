@@ -38,7 +38,7 @@ const ChatsTab = () => {
         name: chat.participant.name,
         avatar: chat.participant.avatar,
       },
-    } as any);
+    });
   };
 
   return (
@@ -59,7 +59,7 @@ const ChatsTab = () => {
             iconColor="#6B6B70"
             iconSize={64}
             buttonLabel="New Chat"
-            onPressButton={() => router.push("/new-chat" as any)}
+            onPressButton={() => router.push("/new-chat")}
           />
         }
       />
@@ -78,7 +78,7 @@ function Header() {
         <Text className="text-2xl font-bold text-foreground">Chats</Text>
         <Pressable
           className="size-10 bg-primary rounded-full items-center justify-center"
-          onPress={() => router.push("/new-chat" as any) }
+          onPress={() => router.push("/new-chat")}
         >
           <Ionicons name="create-outline" size={20} color="#0D0D0F" />
         </Pressable>
