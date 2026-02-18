@@ -14,7 +14,9 @@ const app = express();
 const allowedOrigins = [
   "http://localhost:8081",
   "http://localhost:5173",
+  "http://localhost:5174",
   process.env.FRONTEND_URI!,
+  process.env.FRONTEND_URL!,
 ].filter(Boolean);
 
 app.use(
@@ -35,9 +37,9 @@ app.get("/health", (req, res) => {
 })
 
 app.use("/api/auth",authRoutes)
-app.use("api/chats", chatRoutes)
-app.use("api/messages", messageRoutes)
-app.use("api/users", userRoutes)
+app.use("/api/chats", chatRoutes)
+app.use("/api/messages", messageRoutes)
+app.use("/api/users", userRoutes)
 
 
 app.use(errorHandler);
