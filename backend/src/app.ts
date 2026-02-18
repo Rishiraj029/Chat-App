@@ -1,5 +1,6 @@
 import express from 'express';
 import path from "path";
+import cors from "cors";
 
 import authRoutes from "./routes/authRoutes";
 import chatRoutes from "./routes/chatRoutes";
@@ -10,13 +11,28 @@ import { errorHandler } from './middleware/errorHandler';
 
 const app = express();
 
+const allowedOrigins = [
+  "http://localhost:8081",
+  "http://localhost:5173",
+  process.env.FRONTEND_URI!,
+].filter(Boolean);
+
+app.use(
+  cors({
+  origin:allowedOrigins,
+  credentials:true
+})
+);
+
 app.use(express.json())
+
+
+app.use(clerkMiddleware())
+
 
 app.get("/health", (req, res) => {
   res.json({status:"ok", message:"Server is running"})
 })
-
-app.use(clerkMiddleware())
 
 app.use("/api/auth",authRoutes)
 app.use("api/chats", chatRoutes)

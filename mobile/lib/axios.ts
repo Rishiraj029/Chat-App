@@ -3,7 +3,7 @@ import * as Sentry from "@sentry/react-native";
 import { useAuth } from "@clerk/clerk-expo";
 import { useCallback } from "react";
 
-const API_URL = "https://talksy-ajfa.onrender.com";
+const API_URL = "https://talksy-ajfa.onrender.com/api";
 
 
 const api = axios.create({
