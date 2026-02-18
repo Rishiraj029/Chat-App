@@ -36,7 +36,6 @@ export default Sentry.wrap(function RootLayout() {
         <SocketConnection />
         <StatusBar style="light" />
         <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: "#0D0D0F" } }}>
-          <Stack.Screen name="index" options={{ animation: "none" }} />
           <Stack.Screen name="(auth)" options={{ animation: "fade" }} />
           <Stack.Screen name="(tabs)" options={{ animation: "fade" }} />
           <Stack.Screen
