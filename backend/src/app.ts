@@ -15,8 +15,9 @@ const app = express();
 const allowedOrigins = [
   "http://localhost:8081",
   "http://localhost:5173",
-  process.env.FRONTEND_URL!,
-].filter(Boolean);
+  process.env.FRONTEND_URL,
+  process.env.RAILWAY_PUBLIC_DOMAIN ? `https://${process.env.RAILWAY_PUBLIC_DOMAIN}` : "",
+].filter(Boolean) as string[];
 
 app.use(
   cors({
