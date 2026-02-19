@@ -4,7 +4,7 @@ import { QueryClient } from "@tanstack/react-query";
 import { Chat, Message, MessageSender } from "@/types";
 import * as Sentry from "@sentry/react-native";
 
-const SOCKET_URL = "https://talksy-ajfa.onrender.com";
+const SOCKET_URL = "https://chat-app-production-3658.up.railway.app";
 
 interface SocketState {
   socket: Socket | null;
