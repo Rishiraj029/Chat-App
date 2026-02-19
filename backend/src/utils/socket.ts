@@ -14,10 +14,18 @@ export const initializeSocket = (httpServer: HttpServer) => {
     "http://localhost:5173", 
     "http://localhost:5174", 
     process.env.FRONTEND_URI,
-    process.env.FRONTEND_URL, 
+    process.env.FRONTEND_URL,
+    process.env.RAILWAY_PUBLIC_DOMAIN ? `https://${process.env.RAILWAY_PUBLIC_DOMAIN}` : "",
   ].filter(Boolean) as string[];
 
-  const io = new SocketServer(httpServer, { cors: { origin: allowedOrigins } });
+  const io = new SocketServer(httpServer, {
+    cors: {
+      origin: allowedOrigins,
+      methods: ["GET", "POST"],
+      credentials: true,
+    },
+    transports: ["websocket", "polling"],
+  });
 
   // verify socket connection - if the user is authenticated, we will store the user id in the socket
 
