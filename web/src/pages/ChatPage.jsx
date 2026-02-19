@@ -30,7 +30,7 @@ function ChatPage() {
 
   const { socket, setTyping, sendMessage } = useSocketStore();
 
-  useSocketConnection();
+  useSocketConnection(activeChatId);
 
   const { data: chats = [], isLoading: chatsLoading } = useChats();
   const { data: messages = [], isLoading: messagesLoading } = useMessages(activeChatId);
