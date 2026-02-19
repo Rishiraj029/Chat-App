@@ -47,7 +47,8 @@
           "project": "talksy-app",
           "organization": "rishis-company"
         }
-      ]
+      ],
+      "@sentry/react-native"
     ],
     "experiments": {
       "typedRoutes": true,
