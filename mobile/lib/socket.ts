@@ -1,10 +1,10 @@
 import { create } from "zustand";
 import { io, Socket } from "socket.io-client";
 import { QueryClient } from "@tanstack/react-query";
-import { Chat, Message, MessageSender } from "@/types";
+import { Chat, Message, MessageSender, User } from "@/types";
 import * as Sentry from "@sentry/react-native";
 
-const SOCKET_URL = "chat-app-production-b51d.up.railway.app";
+const SOCKET_URL = "https://chat-app-dnxs.onrender.com";
 
 interface SocketState {
   socket: Socket | null;
@@ -80,34 +80,30 @@ export const useSocketStore = create<SocketState>((set, get) => ({
 
     socket.on("new-message", (message: Message) => {
       const senderId = (message.sender as MessageSender)._id;
-      const { currentChatId } = get();
+      const { currentChatId, queryClient } = get();
+
+      if (!queryClient) return;
 
       // add message to the chat's message list, replacing optimistic messages
       queryClient.setQueryData<Message[]>(["messages", message.chat], (old) => {
         if (!old) return [message];
-        // remove any optimistic messages (temp IDs) and add the real one
-        const filtered = old.filter((m) => !m._id.startsWith("temp-"));
-        if (filtered.some((m) => m._id === message._id)) return filtered;
-        return [...filtered, message];
-      });
 
-      // Update chat's lastMessage directly for instant UI update
-      queryClient.setQueryData<Chat[]>(["chats"], (oldChats) => {
-        return oldChats?.map((chat) => {
-          if (chat._id === message.chat) {
-            return {
-              ...chat,
-              lastMessage: {
-                _id: message._id,
-                text: message.text,
-                sender: senderId,
-                createdAt: message.createdAt,
-              },
-              lastMessageAt: message.createdAt,
-            };
+        // If it's our own message, we look for a temp message with the same content to replace
+        // This is a heuristic since we don't have correlation IDs from the server yet
+        const isFromMe = senderId === (queryClient.getQueryData<User>(["currentUser"])?._id);
+
+        if (isFromMe) {
+          const tempIndex = old.findIndex(m => m._id.startsWith("temp-") && m.text === message.text);
+          if (tempIndex !== -1) {
+            const newList = [...old];
+            newList[tempIndex] = message; // replace temp with real message
+            return newList;
           }
-          return chat;
-        });
+        }
+
+        // If not ours or no match found, just add it and filter duplicates
+        if (old.some((m) => m._id === message._id)) return old;
+        return [...old, message];
       });
 
       // mark as unread if not currently viewing this chat and message is from other user
@@ -200,8 +196,12 @@ export const useSocketStore = create<SocketState>((set, get) => ({
       return [...old, optimisticMessage];
     });
 
-    socket.emit("send-message", { chatId, text });
+    socket.emit("send-message", { chatId, text }, (ack: any) => {
+      console.log("Message ack received from server:", ack);
+      // If server returns the real message, we could replace specifically here
+    });
 
+    console.log("✅ Message emitted safely to socket:", { chatId, textLength: text.length });
     Sentry.logger.info("Message sent successfully", { chatId, messageLength: text.length });
 
     const errorHandler = (error: { message: string }) => {

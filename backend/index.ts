@@ -18,10 +18,10 @@ initializeSocket(httpServer)
 
 connectDB()
   .then(() => {
-     httpServer.listen(PORT, "0.0.0.0", () => {
+    httpServer.listen(PORT, "0.0.0.0", () => {
       console.log("Server is running on PORT:", PORT);
-     });
-}).catch ((error) => {
-   console.log("Failed to start server: ", error);
-   process.exit(1);
-})
+    });
+  }).catch((error) => {
+    console.log("Failed to start server: ", error);
+    process.exit(1);
+  })

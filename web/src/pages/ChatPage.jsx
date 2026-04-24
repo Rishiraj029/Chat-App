@@ -9,16 +9,16 @@ import { useChats, useGetOrCreateChat } from "../hooks/useChats";
 import { useMessages } from "../hooks/useMessages";
 import { ChatListItem } from "../components/ChatListItem";
 import { ChatHeader } from "../components/ChatHeader";
+import VideoCallModal from "../components/VideoCallModal";
+import Peer from "simple-peer";
 import { MessageBubble } from "../components/MessageBubble";
 import { ChatInput } from "../components/ChatInput";
 import { useCurrentUser } from "../hooks/useCurrentUser";
 import { NewChatModal } from "../components/NewChatModel";
 
 
-
 function ChatPage() {
   const { data: currentUser } = useCurrentUser();
-
   const [searchParams, setSearchParams] = useSearchParams();
   const activeChatId = searchParams.get("chat");
 
@@ -36,10 +36,85 @@ function ChatPage() {
   const { data: messages = [], isLoading: messagesLoading } = useMessages(activeChatId);
   const startChatMutation = useGetOrCreateChat();
 
+  // Video call state
+  const [isVideoCallOpen, setIsVideoCallOpen] = useState(false);
+  const [videoPeer, setVideoPeer] = useState(null);
+  const [localStream, setLocalStream] = useState(null);
+  const [remoteStream, setRemoteStream] = useState(null);
+  const [isCaller, setIsCaller] = useState(false);
+
+  const activeChat = chats.find((c) => c._id === activeChatId);
+
   // scroll to bottom when chat or messages changes
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [activeChatId, messages]);
+
+  // Video call signaling handlers
+  useEffect(() => {
+    if (!socket) return;
+    
+    socket.on("video:offer", async ({ from, signal }) => {
+      if (activeChat && from === activeChat.participant._id) {
+        setIsVideoCallOpen(true);
+        setIsCaller(false);
+        try {
+          const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+          setLocalStream(stream);
+          const peer = new Peer({ initiator: false, trickle: false, stream });
+          peer.on("signal", (answerSignal) => {
+            socket.emit("video:answer", { to: from, signal: answerSignal, chatId: activeChatId });
+          });
+          peer.on("stream", (remote) => setRemoteStream(remote));
+          peer.signal(signal);
+          setVideoPeer(peer);
+        } catch (err) {
+          console.error("Failed to get local stream", err);
+        }
+      }
+    });
+
+    socket.on("video:answer", ({ from, signal }) => {
+      if (videoPeer && isCaller && from === activeChat?.participant?._id) {
+        videoPeer.signal(signal);
+      }
+    });
+
+    return () => {
+      socket.off("video:offer");
+      socket.off("video:answer");
+    };
+  }, [socket, activeChatId, activeChat, videoPeer, isCaller]);
+
+  const handleStartVideoCall = async () => {
+    if (!activeChat) return;
+    setIsVideoCallOpen(true);
+    setIsCaller(true);
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+      setLocalStream(stream);
+      const peer = new Peer({ initiator: true, trickle: false, stream });
+      peer.on("signal", (signal) => {
+        socket.emit("video:offer", { to: activeChat.participant._id, signal, chatId: activeChatId });
+      });
+      peer.on("stream", (remote) => setRemoteStream(remote));
+      setVideoPeer(peer);
+    } catch (err) {
+      console.error("Failed to get local stream", err);
+    }
+  };
+
+  const handleEndVideoCall = () => {
+    setIsVideoCallOpen(false);
+    if (videoPeer) videoPeer.destroy();
+    setVideoPeer(null);
+    if (localStream) {
+      localStream.getTracks().forEach((t) => t.stop());
+      setLocalStream(null);
+    }
+    setRemoteStream(null);
+    setIsCaller(false);
+  };
 
   const handleStartChat = (participantId) => {
     startChatMutation.mutate(participantId, {
@@ -67,8 +142,6 @@ function ChatPage() {
       setTyping(activeChatId, false);
     }, 2000);
   };
-
-  const activeChat = chats.find((c) => c._id === activeChatId);
 
   return (
     <div className="h-screen bg-base-100 text-base-content flex">
@@ -125,7 +198,14 @@ function ChatPage() {
       <div className="flex-1 flex flex-col">
         {activeChatId && activeChat ? (
           <>
-            <ChatHeader participant={activeChat.participant} chatId={activeChatId} />
+            <ChatHeader participant={activeChat.participant} chatId={activeChatId} onVideoCall={handleStartVideoCall} />
+            <VideoCallModal
+              isOpen={isVideoCallOpen}
+              onClose={handleEndVideoCall}
+              peer={videoPeer}
+              localStream={localStream}
+              remoteStream={remoteStream}
+            />
 
             {/* messages */}
             <div className="flex-1 overflow-y-auto p-6 space-y-4">
@@ -196,7 +276,7 @@ function NoChatSelectedUI() {
       <div className="w-20 h-20 rounded-3xl bg-linear-to-br from-amber-500/20 to-orange-500/20 flex items-center justify-center mb-6">
         <MessageSquareIcon className="w-10 h-10 text-amber-400" />
       </div>
-      <h2 className="text-2xl font-bold mb-2">Welcome to Whisper</h2>
+      <h2 className="text-2xl font-bold mb-2">Welcome to Talksy</h2>
       <p className="text-base-content/70 max-w-sm">
         Select a conversation from the sidebar or start a new chat to begin messaging
       </p>
