@@ -69,7 +69,7 @@ const AuthScreen = () => {
             contentFit="contain"
           />
           <Text className="text-4xl font-bold text-primary font-serif tracking-wider uppercase">
-            Whisper
+            Talksy
           </Text>
         </View>
 

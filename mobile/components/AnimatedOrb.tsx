@@ -31,7 +31,7 @@ export function AnimatedOrb({ colors, size, initialX, initialY, duration }: Anim
         withTiming(-30, { duration, easing }),
         withTiming(0, { duration, easing })
       ),
-      -1 // infinite
+      -1
     );
 
     translateY.value = withRepeat(
@@ -51,15 +51,17 @@ export function AnimatedOrb({ colors, size, initialX, initialY, duration }: Anim
       ),
       -1
     );
-  }, [duration, translateX, translateY, scale]);
+  }, []); // Only run on mount, shared values and duration are stable/passed once
 
-  const animatedStyle = useAnimatedStyle(() => ({
-    transform: [
-      { translateX: translateX.value },
-      { translateY: translateY.value },
-      { scale: scale.value },
-    ],
-  }));
+  const animatedStyle = useAnimatedStyle(() => {
+    return {
+      transform: [
+        { translateX: translateX.value },
+        { translateY: translateY.value },
+        { scale: scale.value },
+      ],
+    };
+  });
 
   return (
     <Animated.View
