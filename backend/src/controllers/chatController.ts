@@ -1,6 +1,7 @@
 import type { NextFunction, Response } from "express";
 import type { AuthRequest } from "../middleware/auth";
 import { Chat } from "../models/Chat";
+import { Message } from "../models/Message";
 import { Types } from "mongoose";
 
 
@@ -39,8 +40,8 @@ export async function getOrCreateChat(req: AuthRequest, res: Response, next: Nex
     const { participantId } = req.params;
     console.log('participantId:', participantId);
 
-    if (!participantId) {
-      res.status(400).json({ message: "Participant ID is required" });
+    if (!participantId || typeof participantId !== "string") {
+      res.status(400).json({ message: "Participant ID is required and must be a string" });
       return;
     }
 
@@ -80,4 +81,38 @@ export async function getOrCreateChat(req: AuthRequest, res: Response, next: Nex
     next(error);
   }
 }
+export async function deleteChat(req: AuthRequest, res: Response, next: NextFunction) {
+  try {
+    const userId = req.userId;
+    const { chatId } = req.params;
 
+    if (!chatId || typeof chatId !== "string") {
+      return res.status(400).json({ message: "Chat ID is required and must be a string" });
+    }
+
+    if (!Types.ObjectId.isValid(chatId)) {
+      return res.status(400).json({ message: "Invalid chat ID" });
+    }
+
+    // find chat and verify participant
+    const chat = await Chat.findOne({
+      _id: chatId,
+      participants: userId,
+    });
+
+    if (!chat) {
+      return res.status(404).json({ message: "Chat not found or access denied" });
+    }
+
+    // delete all messages in this chat
+    await Message.deleteMany({ chat: chatId });
+
+    // delete the chat
+    await Chat.findByIdAndDelete(chatId);
+
+    res.json({ message: "Chat deleted successfully" });
+  } catch (error) {
+    res.status(500);
+    next(error);
+  }
+}

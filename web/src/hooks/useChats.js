@@ -34,3 +34,18 @@ export const useGetOrCreateChat = () => {
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["chats"] }),
   });
 };
+
+export const useDeleteChat = () => {
+  const { getToken } = useAuth();
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (chatId) => {
+      const token = await getToken();
+      await api.delete(`/chats/${chatId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+    },
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["chats"] }),
+  });
+};

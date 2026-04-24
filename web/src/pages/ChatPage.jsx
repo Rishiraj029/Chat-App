@@ -5,7 +5,7 @@ import { useSocketStore } from "../lib/socket";
 import { useSocketConnection } from "../hooks/useSocketConnection";
 import { SparklesIcon, MessageSquareIcon, PlusIcon } from "lucide-react";
 
-import { useChats, useGetOrCreateChat } from "../hooks/useChats";
+import { useChats, useGetOrCreateChat, useDeleteChat } from "../hooks/useChats";
 import { useMessages } from "../hooks/useMessages";
 import { ChatListItem } from "../components/ChatListItem";
 import { ChatHeader } from "../components/ChatHeader";
@@ -35,6 +35,7 @@ function ChatPage() {
   const { data: chats = [], isLoading: chatsLoading } = useChats();
   const { data: messages = [], isLoading: messagesLoading } = useMessages(activeChatId);
   const startChatMutation = useGetOrCreateChat();
+  const deleteChatMutation = useDeleteChat();
 
   // Video call state
   const [isVideoCallOpen, setIsVideoCallOpen] = useState(false);
@@ -143,6 +144,14 @@ function ChatPage() {
     }, 2000);
   };
 
+  const handleDeleteChat = (chatId) => {
+    deleteChatMutation.mutate(chatId, {
+      onSuccess: () => {
+        setSearchParams({});
+      },
+    });
+  };
+
   return (
     <div className="h-screen bg-base-100 text-base-content flex">
       {/* Sidebar */}
@@ -198,7 +207,12 @@ function ChatPage() {
       <div className="flex-1 flex flex-col">
         {activeChatId && activeChat ? (
           <>
-            <ChatHeader participant={activeChat.participant} chatId={activeChatId} onVideoCall={handleStartVideoCall} />
+            <ChatHeader 
+              participant={activeChat.participant} 
+              chatId={activeChatId} 
+              onVideoCall={handleStartVideoCall} 
+              onDelete={handleDeleteChat}
+            />
             <VideoCallModal
               isOpen={isVideoCallOpen}
               onClose={handleEndVideoCall}
@@ -276,7 +290,7 @@ function NoChatSelectedUI() {
       <div className="w-20 h-20 rounded-3xl bg-linear-to-br from-amber-500/20 to-orange-500/20 flex items-center justify-center mb-6">
         <MessageSquareIcon className="w-10 h-10 text-amber-400" />
       </div>
-      <h2 className="text-2xl font-bold mb-2">Welcome to Talksy</h2>
+      <h2 className="text-2xl font-bold mb-2">Welcome to <span className="text-amber-500">Talksy</span></h2>
       <p className="text-base-content/70 max-w-sm">
         Select a conversation from the sidebar or start a new chat to begin messaging
       </p>

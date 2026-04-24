@@ -1,8 +1,8 @@
 import { useSocketStore } from "../lib/socket";
 
-import { VideoIcon } from "lucide-react";
+import { VideoIcon, Trash2Icon } from "lucide-react";
 
-export function ChatHeader({ participant, chatId, onVideoCall }) {
+export function ChatHeader({ participant, chatId, onDelete, onVideoCall }) {
   const { onlineUsers, typingUsers } = useSocketStore();
   const isOnline = onlineUsers.has(participant?._id);
   // const isTyping = !!typingUsers.get(chatId);
@@ -23,12 +23,27 @@ export function ChatHeader({ participant, chatId, onVideoCall }) {
           {isTyping ? "typing..." : isOnline ? "Online" : "Offline"}
         </p>
       </div>
-      {onVideoCall && (
-        <button className="btn btn-sm btn-primary flex gap-1 items-center" onClick={onVideoCall} title="Start Video Call">
-          <VideoIcon className="w-4 h-4" />
-          Video Call
-        </button>
-      )}
+      <div className="flex items-center gap-2">
+        {onVideoCall && (
+          <button className="btn btn-sm btn-primary flex gap-1 items-center" onClick={onVideoCall} title="Start Video Call">
+            <VideoIcon className="w-4 h-4" />
+            <span className="hidden sm:inline">Video Call</span>
+          </button>
+        )}
+        {onDelete && (
+          <button 
+            className="btn btn-sm btn-outline btn-error flex gap-1 items-center" 
+            onClick={() => {
+              if (window.confirm("Are you sure you want to delete this chat? This will remove all messages.")) {
+                onDelete(chatId);
+              }
+            }}
+            title="Delete Chat"
+          >
+            <Trash2Icon className="w-4 h-4" />
+          </button>
+        )}
+      </div>
     </div>
   );
 }
