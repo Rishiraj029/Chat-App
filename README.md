@@ -107,19 +107,11 @@ web demo
 <br /><br />
 <img width="1917" height="906" alt="image" src="https://github.com/user-attachments/assets/c60c4772-1710-479d-8cd4-423a1f1359ce" />
 <br /><br />
-mobile demo
-<br />
-login/Authentication page
-<img width="250" height="500" alt="image" src="https://github.com/user-attachments/assets/37d9e270-4dfe-4f62-ae3f-cc27261e80b1" />
-<br/><br /><br />
-home page
-<br />
-<img width="250" height="500" alt="image" src="https://github.com/user-attachments/assets/fe3d8d57-6b43-44d3-b41e-17af755ae17d" />
-<br /><br /><br />
-ProFile Page
-<br />
-<img width="250" height="500" alt="image" src="https://github.com/user-attachments/assets/eee750af-102e-49d1-ac03-ef56bedff0da" />
+## 📱 Mobile Demo
 
+| 🔐 Login / Authentication | 🏠 Home Page | 👤 Profile Page |
+|--------------------------|-------------|----------------|
+| <img src="https://github.com/user-attachments/assets/37d9e270-4dfe-4f62-ae3f-cc27261e80b1" width="250"/> | <img src="https://github.com/user-attachments/assets/fe3d8d57-6b43-44d3-b41e-17af755ae17d" width="250"/> | <img src="https://github.com/user-attachments/assets/eee750af-102e-49d1-ac03-ef56bedff0da" width="250"/> |
 ---
 
 ## 🔗 Live Demo
