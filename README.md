@@ -1,53 +1,133 @@
-# Chat Application
+<img width="1918" height="912" alt="image" src="https://github.com/user-attachments/assets/c22c943a-0c02-495b-8b4d-4e118b749b06" /># 💬 Real-Time Chat Application
 
-## Tech Stack
-- Frontend: React.js
-- Backend: Node.js with Express
-- Database: MongoDB
-- WebSocket for real-time communication
-- Docker for containerization
+A full-stack real-time chat application supporting both **web and mobile platforms**, built with a scalable backend and WebSocket-based communication.
 
-## Architecture Diagram
-![Architecture Diagram](link-to-diagram)
+This project focuses on backend engineering, real-time systems, and cross-platform architecture.
 
-## Multi-Platform Setup Instructions
-1. **Clone the repository:**
-   ```bash
-   git clone https://github.com/Rishiraj029/Chat-App.git
-   cd Chat-App
-   ```
-2. **Setup Backend:**
-   - Navigate to the backend folder
-   - Run `npm install` to install dependencies
-   - Create a `.env` file and add the necessary environment variables
-3. **Setup Frontend:**
-   - Navigate to the frontend folder
-   - Run `npm install`
-   - Start the application with `npm start`
+---
 
-## Environment Variables
-- `MONGO_URI`: MongoDB connection string
-- `PORT`: Port number for the server
-- `JWT_SECRET`: Secret key for JSON Web Tokens
+## 🚀 Features
 
-## Docker Deployment
-1. Build the Docker image:
-   ```bash
-   docker build -t chat-app .
-   ```
-2. Run the container:
-   ```bash
-   docker run -p 3000:3000 chat-app
-   ```
+- 💬 Real-time messaging using Socket.io  
+- 🔐 Secure authentication (Clerk / JWT)  
+- 🌐 Cross-platform support (Web + React Native)  
+- 🟢 Online / offline user status  
+- ✍️ Typing indicators  
+- 📨 Persistent chat history (MongoDB)  
+- ⚡ Fast and responsive UI  
 
-## Real-Time Communication Flow
-- The frontend establishes a WebSocket connection to the server upon loading.
-- Messages are listened for via WebSocket and displayed in real-time in the UI.
+---
 
-## Security Features
-- JWT for secure user authentication
-- Input validation to prevent SQL injection and XSS attacks
-- HTTPS for secure data transmission
+## 🛠️ Tech Stack
 
-## Conclusion
-This Chat Application is designed to provide real-time chat functionalities with a focus on security and scalability. Perfect for internship applications!
+### Frontend (Web)
+- React (TypeScript)
+- Vite
+- Tailwind CSS
+- Zustand / React Query
+
+### Mobile
+- React Native (Expo)
+
+### Backend
+- Node.js / Bun
+- Express.js
+- Socket.io
+
+### Database
+- MongoDB (Mongoose)
+
+### Authentication
+- Clerk (JWT-based)
+
+---
+
+## 🧠 How It Works
+
+The application uses a **centralized backend** that serves both web and mobile clients.  
+
+- Clients connect via REST APIs for data (users, chats, messages)  
+- Real-time communication is handled using **Socket.io**  
+- When a message is sent, it is:
+  1. Stored in MongoDB  
+  2. Broadcast to all connected users in real-time  
+- Online status and typing indicators are managed using WebSocket events  
+
+---
+
+## 📁 Project Structure
+
+```
+
+Chat-App/
+├── backend/    # Express + Socket.io server
+├── web/        # React (Vite) frontend
+├── mobile/     # React Native app
+
+````
+
+---
+
+## ⚙️ Setup & Installation
+
+```bash
+git clone https://github.com/Rishiraj029/Chat-App.git
+cd Chat-App
+````
+
+### Install dependencies
+
+```bash
+cd backend && npm install
+cd ../web && npm install
+cd ../mobile && npm install
+```
+
+### Run the project
+
+```bash
+# Backend
+cd backend
+npm run dev
+
+# Frontend
+cd web
+npm run dev
+
+# Mobile
+cd mobile
+npm start
+```
+
+---
+
+## 📸 Screenshots
+web
+<img width="1918" height="912" alt="image" src="https://github.com/user-attachments/assets/e0d28109-385c-41e3-b0c6-1718d1abfd24" />
+<img width="1917" height="906" alt="image" src="https://github.com/user-attachments/assets/c60c4772-1710-479d-8cd4-423a1f1359ce" />
+
+
+---
+
+## 🔗 Live Demo
+
+https://chat-app-dnxs.onrender.com
+
+---
+
+## 👨‍💻 Author
+
+**Rishiraj Singh**
+GitHub: [https://github.com/Rishiraj029](https://github.com/Rishiraj029)
+
+---
+
+## ⭐ Support
+
+If you like this project, give it a ⭐ on GitHub!
+
+```
+
+---
+
+
