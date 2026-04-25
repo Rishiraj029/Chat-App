@@ -102,21 +102,22 @@ npm start
 ---
 
 ## 📸 Screenshots
-#web demo
+web demo
 <img width="1918" height="912" alt="image" src="https://github.com/user-attachments/assets/e0d28109-385c-41e3-b0c6-1718d1abfd24" />
+<br /><br />
 <img width="1917" height="906" alt="image" src="https://github.com/user-attachments/assets/c60c4772-1710-479d-8cd4-423a1f1359ce" />
 <br /><br />
-#mobile demo
+mobile demo
 <br />
 login/Authentication page
 <img width="250" height="500" alt="image" src="https://github.com/user-attachments/assets/37d9e270-4dfe-4f62-ae3f-cc27261e80b1" />
-<br/>
+<br/><br /><br />
 home page
 <br />
 <img width="250" height="500" alt="image" src="https://github.com/user-attachments/assets/fe3d8d57-6b43-44d3-b41e-17af755ae17d" />
 <br /><br /><br />
 ProFile Page
-<br /><br /><br />
+<br />
 <img width="250" height="500" alt="image" src="https://github.com/user-attachments/assets/eee750af-102e-49d1-ac03-ef56bedff0da" />
 
 ---
@@ -138,8 +139,6 @@ GitHub: [https://github.com/Rishiraj029](https://github.com/Rishiraj029)
 
 If you like this project, give it a ⭐ on GitHub!
 
-```
 
----
 
 
