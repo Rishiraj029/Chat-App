@@ -102,17 +102,36 @@ npm start
 ---
 
 ## 📸 Screenshots
-web demo
-<img width="1918" height="912" alt="image" src="https://github.com/user-attachments/assets/e0d28109-385c-41e3-b0c6-1718d1abfd24" />
-<br /><br />
-<img width="1917" height="906" alt="image" src="https://github.com/user-attachments/assets/c60c4772-1710-479d-8cd4-423a1f1359ce" />
-<br /><br />
-## 📱 Mobile Demo
 
-| 🔐 Login / Authentication | 🏠 Home Page | 👤 Profile Page |
-|--------------------------|-------------|----------------|
-| <img src="https://github.com/user-attachments/assets/37d9e270-4dfe-4f62-ae3f-cc27261e80b1" width="250"/> | <img src="https://github.com/user-attachments/assets/fe3d8d57-6b43-44d3-b41e-17af755ae17d" width="250"/> | <img src="https://github.com/user-attachments/assets/eee750af-102e-49d1-ac03-ef56bedff0da" width="250"/> |
+### 💻 Web Demo
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/e0d28109-385c-41e3-b0c6-1718d1abfd24" width="800"/>
+</p>
+<p align="center"><b>🔐 Authentication Page</b></p>
+
+<br/>
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/c60c4772-1710-479d-8cd4-423a1f1359ce" width="800"/>
+</p>
+<p align="center"><b>🏠 Home Page</b></p>
+
+<br/>
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/d3af7dc4-05b1-4893-a3d8-c71cb0182598" width="800"/>
+</p>
+<p align="center"><b>💬 Chat Page</b></p>
+
 ---
+
+### 📱 Mobile Demo
+
+| 🔐 Login | 🏠 Home | 💬 Chat | 👤 Profile |
+|----------|--------|--------|-----------|
+| <img src="https://github.com/user-attachments/assets/37d9e270-4dfe-4f62-ae3f-cc27261e80b1" width="220"/> | <img src="https://github.com/user-attachments/assets/450938c4-2a60-48cc-9244-9f7885ef8654" width="220"/> | <img src="https://github.com/user-attachments/assets/de563865-37e6-4aa5-8a12-2228572e63fa" width="220"/> | <img src="https://github.com/user-attachments/assets/eee750af-102e-49d1-ac03-ef56bedff0da" width="220"/> |
+
 
 ## 🔗 Live Demo
 
