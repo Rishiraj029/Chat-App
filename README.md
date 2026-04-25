@@ -105,24 +105,24 @@ npm start
 
 ### 💻 Web Demo
 
+<p align="center"><b>🔐 Authentication Page</b></p>
 <p align="center">
   <img src="https://github.com/user-attachments/assets/e0d28109-385c-41e3-b0c6-1718d1abfd24" width="800"/>
 </p>
-<p align="center"><b>🔐 Authentication Page</b></p>
 
 <br/>
 
+<p align="center"><b>🏠 Home Page</b></p>
 <p align="center">
   <img src="https://github.com/user-attachments/assets/c60c4772-1710-479d-8cd4-423a1f1359ce" width="800"/>
 </p>
-<p align="center"><b>🏠 Home Page</b></p>
 
 <br/>
 
+<p align="center"><b>💬 Chat Page</b></p>
 <p align="center">
   <img src="https://github.com/user-attachments/assets/d3af7dc4-05b1-4893-a3d8-c71cb0182598" width="800"/>
 </p>
-<p align="center"><b>💬 Chat Page</b></p>
 
 ---
 
